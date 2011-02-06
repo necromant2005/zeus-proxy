@@ -1,13 +1,15 @@
 <?php
 namespace Zend\Cache\Backend\Proxy;
 
-class Tag extends AbstractBackend
+use Zend\Cache\Backend as CacheBackend;
+
+class Tag extends CacheBackend\AbstractBackend
 {
     protected $_backend = null;
     protected $_tagKeyPrefix = '_tag:';
 
 
-    public function setBackend(AbstractBackend $backend)
+    public function setBackend(CacheBackend\AbstractBackend $backend)
     {
         $this->_backend = $backend;
     }
