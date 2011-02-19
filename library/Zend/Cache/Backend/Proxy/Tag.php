@@ -28,7 +28,7 @@ class Tag extends CacheBackend\AbstractBackend
         foreach ($tags as $tag) {
             $name = $this->_getTagCacheKey($tag);
             if ($this->_backend->test($name)) {
-                $list = $this->_backend->load($name);
+                $list = (array)$this->_backend->load($name);
                 $list[] = $id;
                 $this->_backend->save($list, $name);
             } else {
@@ -62,11 +62,11 @@ class Tag extends CacheBackend\AbstractBackend
                 throw new \Exception('Must emulate');
                 break;
             case \Zend\Cache\Cache::CLEANING_MODE_MATCHING_TAG:
-                $name = $this->_getTagCacheKey(reset($tag));
-                $ids = $this->_backend->load($name);
+                $name = $this->_getTagCacheKey(reset($tags));
+                $ids = (array)$this->_backend->load($name);
                 foreach (array_slice($tags, 1) as $tag) {
                     $name = $this->_getTagCacheKey($tag);
-                    $list = $this->_backend->load($name);
+                    $list = (array)$this->_backend->load($name);
                     $_ids = array();
                     foreach ($list as $id) {
                         if (in_array($id, $ids)) {
@@ -85,7 +85,7 @@ class Tag extends CacheBackend\AbstractBackend
             case \Zend\Cache\Cache::CLEANING_MODE_MATCHING_ANY_TAG:
                 foreach ($tags as $tag) {
                     $name = $this->_getTagCacheKey($tag);
-                    $list = $this->_backend->load($name);
+                    $list = (array)$this->_backend->load($name);
                     foreach ($list as $id) {
                         $this->_backend->remove($id);
                     }
